@@ -1,25 +1,5 @@
 #include "funcoes.hpp"
 
-void exemplo(string nome_arquivo) {
-    fstream myfile;
-    myfile.open(nome_arquivo);
-    string aux;
-    int cont;
-
-    cout << "NOME DO ARQUIVO: " << nome_arquivo << endl << endl;
-    
-    if (myfile.is_open()) {
-        while (getline (myfile, aux, ' ')) {
-            cout << aux << " ";
-
-            if (cont == 7) {
-                cout << endl;
-                cont = 0;
-            }
-        }
-    }
-}
-
 int gerar()
 {
     unsigned seed = time(0);
@@ -36,14 +16,12 @@ int gerar()
 /// @param linha
 /// @param coluna
 /// @param nummat
-void game(vector<char> elementos, int linha, int coluna, int nummat, int numero_processo)
+void processamat(vector<char> elementos, int linha, int coluna, int numero_processo)
 {
     char mat[linha][coluna];
     int k = 0;
     ofstream arqmat;
     string aux, nome_arquivo;
-
-    cout << "Numero de matrizes: " << nummat << endl;
 
     for (int i = 0; i < linha; i++)
     {
@@ -55,18 +33,13 @@ void game(vector<char> elementos, int linha, int coluna, int nummat, int numero_
     }
 
     nome_arquivo = "matriz" + to_string(numero_processo) + ".txt";
-    // cout << nome_arquivo << endl;
+
     arqmat.open(nome_arquivo);
 
     for (int i = 0; i < linha; i++)
     {
         for (int j = 0; j < coluna; j++)
         {
-            // if (arqmat.is_open())
-            // {
-            //     arqmat << mat[i][j] << " "; 
-            // }
-            // arqmat << "a ";
             aux = mat[i][j];
             arqmat << aux << " ";
         }
@@ -74,6 +47,50 @@ void game(vector<char> elementos, int linha, int coluna, int nummat, int numero_
     }
 
     arqmat.close();
-    exemplo(nome_arquivo);
 }
 
+void game(int linha, int coluna, int nummat)
+{
+    nummat = 1;
+    int cont = 0, k = 0;
+    fstream doc;
+    string nome_arq;
+    vector<char> elementos;
+    char mat[linha][coluna], aux;
+    nome_arq = "matriz" + to_string(nummat) + ".txt";
+
+    while(nummat != 3){
+    doc.open(nome_arq);
+    if (doc.is_open())
+    {      
+        while (doc >> aux)
+        {
+            elementos.push_back(aux);
+            cont++;
+            if (cont == linha * coluna)
+            {
+                for (int i = 0; i < linha; i++)
+                {
+                    for (int j = 0; j < coluna; j++)
+                    {
+                        mat[i][j] = elementos[k];
+                        k++;
+                    }
+                }
+                for (int i = 0; i < linha; i++)
+                {
+                    for (int j = 0; j < coluna; j++)
+                    {
+                        cout << mat[i][j] << " ";
+                    }
+                    cout << endl;
+                }
+            }
+        }
+        doc.close();
+    }
+    nummat ++;
+    nome_arq = "matriz" + to_string(nummat) + ".txt";
+    cout << nome_arq << endl;
+    }
+}

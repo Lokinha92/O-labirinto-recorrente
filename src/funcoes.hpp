@@ -8,4 +8,7 @@ using namespace std;
 
 int gerar();
 
-void game(vector<char>elementos, int linha, int coluna, int nummat, int numero_processo);
+void processamat(vector<char>elementos, int linha, int coluna, int numero_processo);
+
+void game(int linha, int coluna, int nummat);
+

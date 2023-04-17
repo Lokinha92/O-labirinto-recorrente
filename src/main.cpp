@@ -17,14 +17,16 @@ int main(){
             elementos.push_back(aux);
             cont ++;
             if(cont == linha*coluna){
-                game(elementos, linha, coluna, nummat, numero_processo);
+                processamat(elementos, linha, coluna, numero_processo);
                 cout << endl << endl << endl;
                 cont=0;
                 elementos.clear();
                 numero_processo++;
             }
         }
+        input.close();
     }
+    game(linha, coluna, nummat);
 
     return 0;
 }
