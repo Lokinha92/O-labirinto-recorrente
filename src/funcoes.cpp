@@ -1,12 +1,23 @@
 #include "funcoes.hpp"
 
-int gerar()
+int gera5()
 {
     unsigned seed = time(0);
     int num;
 
     srand(seed);
-    num = 1 + rand() % 3;
+    num = 1 + rand() % 5;
+
+    return num;
+}
+
+int gera8()
+{
+    unsigned seed = time(0);
+    int num;
+
+    srand(seed);
+    num = 1 + rand() % 8;
 
     return num;
 }
@@ -49,48 +60,90 @@ void processamat(vector<char> elementos, int linha, int coluna, int numero_proce
     arqmat.close();
 }
 
-void game(int linha, int coluna, int nummat)
+void game(int nummat, int linha, int coluna)
 {
-    nummat = 1;
-    int cont = 0, k = 0;
-    fstream doc;
+    int numarq = 1;
     string nome_arq;
-    vector<char> elementos;
-    char mat[linha][coluna], aux;
-    nome_arq = "matriz" + to_string(nummat) + ".txt";
+    vector<string> elementos;
+    fstream doc;
+    string mat[linha][coluna], aux;
+    int cont = 0, k = 0;
+    //int i_atual = 1, j_atual = 0;
+    int vidas = 10; // bussola = 0, banco = 0;
+    
+    cout << nummat << endl << endl;
 
-    while(nummat != 3){
-    doc.open(nome_arq);
-    if (doc.is_open())
-    {      
-        while (doc >> aux)
-        {
-            elementos.push_back(aux);
-            cont++;
-            if (cont == linha * coluna)
+    while (vidas > 0)
+    {
+        //while (numarq <= nummat)
+        //{
+            nome_arq = "matriz" + to_string(numarq) + ".txt";
+            doc.open(nome_arq);
+            if (doc.is_open())
             {
-                for (int i = 0; i < linha; i++)
+                while (getline(doc, aux, ' '))
                 {
-                    for (int j = 0; j < coluna; j++)
+                    elementos.push_back(aux);
+                    cont++;
+                    if (cont == linha * coluna)
                     {
-                        mat[i][j] = elementos[k];
-                        k++;
+                        for (int i = 0; i < linha; i++)
+                        {
+                            for (int j = 0; j < coluna; j++)
+                            {
+                                mat[i][j] = elementos[k];
+                                k++;
+                            }
+                        }
+                        cont = 0;
+                        elementos.clear();
                     }
                 }
-                for (int i = 0; i < linha; i++)
-                {
-                    for (int j = 0; j < coluna; j++)
-                    {
-                        cout << mat[i][j] << " ";
-                    }
-                    cout << endl;
-                }
+                doc.close();
             }
-        }
-        doc.close();
+
+            for (int i = 0; i < linha; i++)
+            {
+                for (int j = 0; j < coluna; j++)
+                {
+                    cout << mat[i][j] << " ";
+                }
+                //cout << endl;
+            }
+
+            vidas = 0;
+
+            // while ((i_atual != 0 && j_atual != 0) || (i_atual != linha - 1 && j_atual != coluna - 1))
+            // {
+            //     if (i_atual != 0 && j_atual == 0)
+            //     {
+
+            //         bussola = 1;
+            //         if (bussola == 1)
+            //         {
+            //             i_atual--;
+            //             cout << "aqui" << endl;
+            //             cout << "vidas ---> " << vidas << endl;
+            //             vidas ++;
+            //             cout << "vidas ---> " << vidas << endl;                        
+            //             if (mat[i_atual][j_atual] == "*")
+            //             {
+            //                 vidas--;
+            //             }
+            //             else if (mat[i_atual][j_atual] == "#")
+            //             {
+            //                 i_atual++;
+            //             }
+            //             else if (mat[i_atual][j_atual] == "1" || mat[i_atual][j_atual] == "2" || mat[i_atual][j_atual] == "3" || mat[i_atual][j_atual] == "4" || mat[i_atual][j_atual] == "5")
+            //             {
+            //                 mat[i_atual][j_atual] = stoi(mat[i_atual][j_atual]) - 1;
+            //                 banco++;
+            //                 vidas = 0;
+            //             }
+            //         }
+            //     }
+            // }
+        //}
     }
-    nummat ++;
-    nome_arq = "matriz" + to_string(nummat) + ".txt";
-    cout << nome_arq << endl;
-    }
+    cout << "FIM DE JOGO! AS VIDAS CHEGARAM A 0" << endl << endl;
 }

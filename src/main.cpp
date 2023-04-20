@@ -18,7 +18,6 @@ int main(){
             cont ++;
             if(cont == linha*coluna){
                 processamat(elementos, linha, coluna, numero_processo);
-                cout << endl << endl << endl;
                 cont=0;
                 elementos.clear();
                 numero_processo++;
@@ -26,7 +25,7 @@ int main(){
         }
         input.close();
     }
-    game(linha, coluna, nummat);
-
+    game(nummat, linha, coluna);
+    
     return 0;
 }
